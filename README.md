@@ -1,0 +1,1 @@
+# puppet-docker_auth
