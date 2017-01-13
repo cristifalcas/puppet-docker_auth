@@ -1,0 +1,44 @@
+server:
+  # Address to listen on.
+  addr: "<%= scope['docker_auth::server_addr'] %>"
+  # If not specified, server will open a plain HTTP listener. In that case token.certificate and key must be provided.
+  certificate: "<%= scope['docker_auth::server_certificate'] %>"
+  key: "<%= scope['docker_auth::server_key'] %>"
+
+token:  # Settings for the tokens.
+  issuer: "<%= scope['docker_auth::token_issuer'] %>"  # Must match issuer in the Registry config.
+  expiration: <%= scope['docker_auth::token_expiration'] %>
+  # Token must be signed by a certificate that registry trusts, i.e. by a certificate to which a trust chain
+  # can be constructed from one of the certificates in registry's auth.token.rootcertbundle.
+  # If not specified, server's TLS certificate and key are used.
+  # certificate: "..."
+  # key: "..."
+
+<%-
+  $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"..","lib"))
+  require 'puppet_x/docker_auth/deep_to_i'
+  require 'puppet_x/docker_auth/hash'
+  @yml_string = ''
+  hash = {"users"=> scope['docker_auth::users']}
+  # Sort Hash and transform it into yaml
+  @yml_string += Puppet_X::Docker_auth::deep_to_i(
+    hash
+  ).extend(
+    Puppet_X::Docker_auth::SortedHash
+  ).to_yaml
+  # Puppet < 4 uses ZAML, which has some deviations from Puppet 4 YAML
+  # implementation
+  unless Puppet::Util::Package.versioncmp(Puppet.version, '4') >= 0
+    @yml_string.gsub!(/^\s{2}/, '')
+  end
+-%>
+<%= @yml_string %>
+
+<% unless [nil, :undefined, :undef, ''].include?(scope['docker_auth::acls']) -%>
+acl:
+<% Array(scope['docker_auth::acls']).each do |value| -%>
+  - match: <%= value['match'].inspect %>
+    actions: <%= value['actions'].inspect %>
+    comment: <%= value['comment'].inspect %>
+<% end -%>
+<% end -%>

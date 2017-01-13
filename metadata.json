@@ -1,0 +1,54 @@
+{
+	"name": "cristifalcas-docker_auth",
+	"version": "0.2.0",
+	"author": "Cristian Falcas",
+	"dependencies": [{
+			"name": "puppetlabs/stdlib",
+			"version_requirement": "4.x"
+		},{
+			"name": "cristifalcas/docker",
+			"version_requirement": "5.x"
+		}
+	],
+	"license": "Apache-2.0",
+	"project_page": "https://github.com/cristifalcas/puppet-docker_auth",
+	"requirements": [],
+	"source": "git@github.com:cristifalcas/puppet-docker_auth.git",
+	"summary": "Docker Registry 2 authentication server",
+	"tags": [ "docker_auth",
+		"registry",
+		"distribution",
+		"docker",
+		"docker_authentification"
+	],
+	"requirements": [{
+			"name": "pe",
+			"version_requirement": "3.x"
+		},{
+			"name": "puppet",
+			"version_requirement": ">=3.4.0 <5.0.0"
+		}
+	],
+	"operatingsystem_support": [{
+			"operatingsystem": "RedHat",
+			"operatingsystemrelease": [ "7"
+			]
+		},{
+			"operatingsystem": "CentOS",
+			"operatingsystemrelease": [ "7"
+			]
+		},{
+			"operatingsystem": "OracleLinux",
+			"operatingsystemrelease": [ "7"
+			]
+		},{
+			"operatingsystem": "Scientific",
+			"operatingsystemrelease": [ "7"
+			]
+		},{
+			"operatingsystem": "Fedora",
+			"operatingsystemrelease": [ "21"
+			]
+		}
+	]
+}
