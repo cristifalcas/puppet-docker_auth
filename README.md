@@ -36,12 +36,12 @@ some lib files from [puppet-elasticsearch](https://github.com/elastic/puppet-ela
 		    server_addr     => ':5002',
 		  }
 
-### Use the above with for a local docker distribution proxy (works only with distribution version 2.6 and up):
+### Use the above for a local docker distribution proxy (works only with distribution version 2.6 and up):
 
 		  class { '::docker_distribution':
 		    manage_as                    => 'container',
 		    container_image              => 'docker.io/registry:2.6.0-rc.2',
 		    http_tls                     => true,
 		    storage_delete               => true,
-		    proxy_remoteurl              => 'distribution-01.company.net',
+		    proxy_remoteurl              => 'https://distribution-01.company.net',
 		  }

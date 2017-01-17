@@ -19,7 +19,10 @@ token:  # Settings for the tokens.
   require 'puppet_x/docker_auth/deep_to_i'
   require 'puppet_x/docker_auth/hash'
   @yml_string = ''
-  hash = {"users"=> scope['docker_auth::users']}
+  hash = {
+  	"users"=> scope['docker_auth::users'],
+  	"acl"=> scope['docker_auth::acls'],
+  }
   # Sort Hash and transform it into yaml
   @yml_string += Puppet_X::Docker_auth::deep_to_i(
     hash
@@ -31,14 +34,7 @@ token:  # Settings for the tokens.
   unless Puppet::Util::Package.versioncmp(Puppet.version, '4') >= 0
     @yml_string.gsub!(/^\s{2}/, '')
   end
+  @yml_string = @yml_string.gsub(/^---\s*\n/, '')
 -%>
 <%= @yml_string %>
 
-<% unless [nil, :undefined, :undef, ''].include?(scope['docker_auth::acls']) -%>
-acl:
-<% Array(scope['docker_auth::acls']).each do |value| -%>
-  - match: <%= value['match'].inspect %>
-    actions: <%= value['actions'].inspect %>
-    comment: <%= value['comment'].inspect %>
-<% end -%>
-<% end -%>

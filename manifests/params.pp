@@ -22,7 +22,7 @@ class docker_auth::params {
 
   # full acls for everybody:
   $acls = [{
-      'match'   => { 'account' => '' },
+      'match'   => { account => '' },
       'actions' => ['*'],
       'comment' => 'Allow everything from all',
     },
