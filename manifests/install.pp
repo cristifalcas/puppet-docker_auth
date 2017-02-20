@@ -4,6 +4,8 @@ class docker_auth::install {
       image           => $docker_auth::container_image,
       volumes         => [
         "${docker_auth::config_file}:/config/auth_config.yml",
+        "${docker_auth::server_certificate}:${docker_auth::server_certificate}",
+        "${docker_auth::server_key}:${docker_auth::server_key}",
       ],
       restart_service => true,
       net             => 'host',
