@@ -17,11 +17,16 @@ some lib files from [puppet-elasticsearch](https://github.com/elastic/puppet-ela
 
           include docker_auth
 
+
 ### Install distribution and docker_auth (on machine distribution-01.company.net):
 
+If you want to start the server from a container (manage_as => 'container'), you will need to create
+the folder where $config_file will be written, outside of this module:
+
+          file { '/etc/docker_auth/': ensure => 'directory', }
 		  class { '::docker_distribution':
 		    manage_as                    => 'container',
-		    container_image              => 'docker.io/registry:2.6.0-rc.2',
+		    container_image              => 'docker.io/registry:2.6.0',
 		    http_tls                     => true,
 		    storage_delete               => true,
 		    auth_type                    => 'token',
@@ -40,7 +45,7 @@ some lib files from [puppet-elasticsearch](https://github.com/elastic/puppet-ela
 
 		  class { '::docker_distribution':
 		    manage_as                    => 'container',
-		    container_image              => 'docker.io/registry:2.6.0-rc.2',
+		    container_image              => 'docker.io/registry:2.6.0',
 		    http_tls                     => true,
 		    storage_delete               => true,
 		    proxy_remoteurl              => 'https://distribution-01.company.net',

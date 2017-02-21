@@ -35,7 +35,7 @@
 #   Defaults to true
 #
 # [*server_addr*]
-#   Address and port where the server should listen to 
+#   Address and port where the server should listen to
 #   Defaults to ':5001'
 #
 # [*server_certificate*]
@@ -56,29 +56,29 @@
 #
 # [*users*]
 #   Hash with users definition. Example:
-#		  $users = {
-#		    "admin" => {
-#		      "password" => '$2y$05$LO.vzwpWC5LZGqThvEfznu8qhb5SGqvBSWY1J3yZ4AxtMRZ3kN5jC',
-#		    },
-#		    "" => {},
-#		  }
+# 	  $users = {
+# 	    "admin" => {
+# 	      "password" => '$2y$05$LO.vzwpWC5LZGqThvEfznu8qhb5SGqvBSWY1J3yZ4AxtMRZ3kN5jC',
+# 	    },
+# 	    "" => {},
+# 	  }
 #   Defaults to { "" => {} } (unauthenticated users)
 #
 # [*acls*]
 #   Array with acls. Example:
-#		  $acls = [{
-#		      "match"   => { "account" => "" },
-#		      "actions" => ["*"],
-#		      "comment"=> "Allow everything from all",
-#		    },
-#		    {
-#		      "match" => {
-#		        "ip"   => "127.0.0.0/8",
-#		        "name" => "test-*",
-#		      },
-#		      "actions" => ["pull"],
-#		    }
-#		  ]
+# 	  $acls = [{
+# 	      "match"   => { "account" => "" },
+# 	      "actions" => ["*"],
+# 	      "comment"=> "Allow everything from all",
+# 	    },
+# 	    {
+# 	      "match" => {
+# 	        "ip"   => "127.0.0.0/8",
+# 	        "name" => "test-*",
+# 	      },
+# 	      "actions" => ["pull"],
+# 	    }
+# 	  ]
 #   Defaults to [{ "match"   => { "account" => "" }, "actions" => ["*"] } ] (allow all for all accounts)
 #
 class docker_auth (
@@ -104,7 +104,14 @@ class docker_auth (
   contain ::docker_auth::config
   contain ::docker_auth::service
 
-  Class['::docker_auth::install'] ->
-  Class['::docker_auth::config'] ~>
-  Class['::docker_auth::service']
+  if $manage_as == 'service' {
+    Class['::docker_auth::install'] ->
+    Class['::docker_auth::config'] ~>
+    Class['::docker_auth::service']
+  } elsif $manage_as == 'container' {
+    # dir path for $config_file needs to be created outside of this module
+    Class['::docker_auth::config'] ->
+    Class['::docker_auth::install'] ~>
+    Class['::docker_auth::service']
+  }
 }
