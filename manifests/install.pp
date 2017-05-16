@@ -6,6 +6,7 @@ class docker_auth::install {
         "${docker_auth::config_file}:/config/auth_config.yml",
         "${docker_auth::server_certificate}:${docker_auth::server_certificate}",
         "${docker_auth::server_key}:${docker_auth::server_key}",
+        '/var/log/docker_auth:/logs',
       ],
       restart_service => true,
       net             => 'host',
