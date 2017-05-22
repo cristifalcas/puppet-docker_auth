@@ -38,7 +38,7 @@ the folder where $config_file will be written, outside of this module:
 		  class { '::docker_auth':
 		    manage_as           => 'container',
 		    container_image     => 'docker.io/cesanta/docker_auth:1.2',
-       		     container_log_local => false,
+		    container_log_local => false,
 		    server_addr         => ':5002',
 		  }
 
