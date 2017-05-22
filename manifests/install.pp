@@ -8,7 +8,7 @@ class docker_auth::install {
         "${docker_auth::server_key}:${docker_auth::server_key}",
         '/var/log/docker_auth:/logs',
       ],
-      command         => ' --v=2  -log_dir=/logs  /config/auth_config.yml'
+      command         => ' --v=2  -log_dir=/logs  /config/auth_config.yml',
       restart_service => true,
       net             => 'host',
       detach          => false,
