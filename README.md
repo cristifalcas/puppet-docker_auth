@@ -23,7 +23,7 @@ some lib files from [puppet-elasticsearch](https://github.com/elastic/puppet-ela
 If you want to start the server from a container (manage_as => 'container'), you will need to create
 the folder where $config_file will be written, outside of this module:
 
-          file { '/etc/docker_auth/': ensure => 'directory', }
+	  file { '/etc/docker_auth/': ensure => 'directory', }
 	  class { '::docker_distribution':
 	    manage_as                    => 'container',
 	    container_image              => 'docker.io/registry:2.6.0',
