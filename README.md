@@ -24,22 +24,25 @@ If you want to start the server from a container (manage_as => 'container'), you
 the folder where $config_file will be written, outside of this module:
 
           file { '/etc/docker_auth/': ensure => 'directory', }
-		  class { '::docker_distribution':
-		    manage_as                    => 'container',
-		    container_image              => 'docker.io/registry:2.6.0',
-		    http_tls                     => true,
-		    storage_delete               => true,
-		    auth_type                    => 'token',
-		    auth_token_realm             => "https://${::fqdn}:5002/auth",
-		    auth_token_issuer            => 'Auth Service',
-		    auth_token_rootcertbundle    => "/var/lib/puppet/ssl/certs/${::fqdn}.pem",
-		  }
+	  class { '::docker_distribution':
+	    manage_as                    => 'container',
+	    container_image              => 'docker.io/registry:2.6.0',
+	    http_tls                     => true,
+	    storage_delete               => true,
+	    auth_type                    => 'token',
+	    auth_token_realm             => "https://${::fqdn}:5002/auth",
+	    auth_token_issuer            => 'Auth Service',
+	    auth_token_rootcertbundle    => "/var/lib/puppet/ssl/certs/${::fqdn}.pem",
+	  }
 
-		  class { '::docker_auth':
-		    manage_as       => 'container',
-		    container_image => 'docker.io/cesanta/docker_auth:1.2',
-		    server_addr     => ':5002',
-		  }
+	  class { '::docker_auth':
+	    manage_as           => 'container',
+	    container_image     => 'docker.io/cesanta/docker_auth:1.2',
+            container_log_local => false,
+	    server_addr         => ':5002',
+	  }
+
+Note that if you set container_log_local to true (default is false), logs from the docker_auth container will be written to a directory, /var/log/docker_auth on the docker engine system.
 
 ### Use the above for a local docker distribution proxy (works only with distribution version 2.6 and up):
 
