@@ -17,6 +17,8 @@ class docker_auth::params {
   $token_issuer = 'Auth Service'
   $token_expiration = 900
 
+  $container_log_local = false
+
   # Allow anonymous (no "docker login") access.
   $users = { '' => {} }
 

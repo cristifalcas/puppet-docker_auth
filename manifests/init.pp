@@ -82,21 +82,22 @@
 #   Defaults to [{ "match"   => { "account" => "" }, "actions" => ["*"] } ] (allow all for all accounts)
 #
 class docker_auth (
-  $manage_as          = $::docker_auth::params::manage_as,
-  $container_image    = $::docker_auth::params::container_image,
-  $package_name       = $::docker_auth::params::package_name,
-  $package_ensure     = $::docker_auth::params::package_ensure,
-  $service_name       = $::docker_auth::params::service_name,
-  $service_ensure     = $::docker_auth::params::service_ensure,
-  $service_enable     = $::docker_auth::params::service_enable,
+  $manage_as           = $::docker_auth::params::manage_as,
+  $container_image     = $::docker_auth::params::container_image,
+  $package_name        = $::docker_auth::params::package_name,
+  $package_ensure      = $::docker_auth::params::package_ensure,
+  $service_name        = $::docker_auth::params::service_name,
+  $service_ensure      = $::docker_auth::params::service_ensure,
+  $service_enable      = $::docker_auth::params::service_enable,
   #
-  $server_addr        = $::docker_auth::params::server_addr,
-  $server_certificate = $::docker_auth::params::server_certificate,
-  $server_key         = $::docker_auth::params::server_key,
-  $token_issuer       = $::docker_auth::params::token_issuer,
-  $token_expiration   = $::docker_auth::params::token_expiration,
-  $users              = $::docker_auth::params::users,
-  $acls               = $::docker_auth::params::acls,
+  $server_addr         = $::docker_auth::params::server_addr,
+  $server_certificate  = $::docker_auth::params::server_certificate,
+  $server_key          = $::docker_auth::params::server_key,
+  $token_issuer        = $::docker_auth::params::token_issuer,
+  $token_expiration    = $::docker_auth::params::token_expiration,
+  $container_log_local = $::docker_auth::params::container_log_local,
+  $users               = $::docker_auth::params::users,
+  $acls                = $::docker_auth::params::acls,
 ) inherits docker_auth::params {
   validate_re($manage_as, '^(service|container)$')
 
